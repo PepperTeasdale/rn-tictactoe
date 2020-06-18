@@ -4,32 +4,45 @@ import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
 
 import TicTacToeSquare from '../components/TicTacToeSquare'
 
-const EMPTY_SQUARE = 0
-const X_SQUARE = 1
-const O_SQUARE = 2
+const EMPTY_SQUARE = "";
+const X_SQUARE = "X";
+const O_SQUARE = "O";
 
 const startingBoard = [
   [EMPTY_SQUARE, EMPTY_SQUARE, EMPTY_SQUARE],
   [EMPTY_SQUARE, EMPTY_SQUARE, EMPTY_SQUARE],
   [EMPTY_SQUARE, EMPTY_SQUARE, EMPTY_SQUARE],
-]
+];
 
 const startingGame = {
   currentTurn: 0,
   board: startingBoard,
-}
+};
 
 export const gameReducer = (gameState, action) => {
   switch (action.type) {
-    case 'CHANGE_PLAYER':
+    case 'MOVE_OCCURRED':
+      const [colToChange, rowToChange] = action.payload.location;
+      const newState = gameState.board.map((row, i) => {
+        if (i === rowToChange) {
+          return row.map((col, j) => {
+            if (j === colToChange) {
+              return "X";
+            }
+            return col;
+          })
+        }
+        return row;
+      });
+
       return {
-        ...gameState,
+        board: newState,
         currentTurn: (gameState.currentTurn + 1) % 2,
-      }
+      };
     default:
       return gameState
   }
-}
+};
 
 
 const TicTacToeScreen = () => {
@@ -46,7 +59,7 @@ const TicTacToeScreen = () => {
                 cell={`${rowNum}-${colNum}`}
                 key={`${rowNum}-${colNum}`}
                 onPress={() => {
-                  dispatch({ type: 'CHANGE_PLAYER' })
+                  dispatch({ type: 'MOVE_OCCURRED', payload: { location: [rowNum, colNum] } })
                 }}
               />)
             )
