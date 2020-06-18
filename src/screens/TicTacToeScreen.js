@@ -16,6 +16,7 @@ const startingBoard = [
 
 const startingGame = {
   currentTurn: 0,
+  board: startingBoard,
 }
 
 export const gameReducer = (gameState, action) => {
@@ -30,18 +31,14 @@ export const gameReducer = (gameState, action) => {
   }
 }
 
-const boardReducer = (boardState, action) => {
-  return state
-}
 
 const TicTacToeScreen = () => {
-  const [boardState, dispatchBoard] = useReducer(boardReducer, startingBoard)
-  const [gameState, dispatchGame] = useReducer(gameReducer, startingGame)
+  const [gameState, dispatch] = useReducer(gameReducer, startingGame)
 
   return <View style={styles.board}>
     <Text>{`Player ${gameState.currentTurn + 1} Turn`}</Text>
     {
-      boardState.map((row, rowNum) => {
+      gameState.board.map((row, rowNum) => {
         return <View style={styles.row} key={rowNum}>
           {
             row.map((square, colNum) => (
@@ -49,7 +46,7 @@ const TicTacToeScreen = () => {
                 cell={`${rowNum}-${colNum}`}
                 key={`${rowNum}-${colNum}`}
                 onPress={() => {
-                  dispatchGame({ type: 'CHANGE_PLAYER' })
+                  dispatch({ type: 'CHANGE_PLAYER' })
                 }}
               />)
             )
