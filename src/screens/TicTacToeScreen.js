@@ -23,11 +23,17 @@ const startingGame = {
 const checkForVerticalWin = (board, winChecker) => {
   return [0, 1, 2].reduce((acc, num) => {
     return acc || R.all(winChecker, [board[0][num], board[1][num]], board[2][num])
-  }, false)
+  }, false);
+}
+
+const checkForHorizontalWin = (board, winChecker) => {
+  return [0, 1, 2].reduce((acc, num) => {
+    return acc || R.all(winChecker, [board[num][0], board[num][1], board[num][2]])
+  }, false);
 }
 
 const checkForWin = (board, winChecker) => {
-  return checkForVerticalWin(board, winChecker)
+  return checkForVerticalWin(board, winChecker) || checkForHorizontalWin(board, winChecker)
 }
 
 export const gameReducer = (gameState, action) => {

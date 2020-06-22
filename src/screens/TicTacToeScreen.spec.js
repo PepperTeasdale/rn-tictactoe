@@ -146,7 +146,7 @@ describe(gameReducer, () => {
       expect(newState).toEqual(expectedState)
     })
 
-    it("detects when a player has 3 in a row horizontally", () => {
+    it("detects when a player has 3 in first row horizontally", () => {
       const initialState = {
         currentTurn: 1,
         board: [
@@ -165,6 +165,31 @@ describe(gameReducer, () => {
         ]
       };
       const payload = { location: [0,2] };
+
+      const newState = gameReducer(initialState, { type: "MOVE_OCCURRED", payload });
+
+      expect(newState).toEqual(expectedState)
+    })
+
+    it("detects when a player has 3 in second row horizontally", () => {
+      const initialState = {
+        currentTurn: 0,
+        board: [
+          [EMPTY_SQUARE,O_SQUARE,EMPTY_SQUARE],
+          [X_SQUARE,X_SQUARE, EMPTY_SQUARE],
+          [EMPTY_SQUARE,O_SQUARE,EMPTY_SQUARE],
+        ]
+      };
+      const expectedState = {
+        winner: 0,
+        currentTurn: 1,
+        board: [
+          [EMPTY_SQUARE,O_SQUARE,EMPTY_SQUARE],
+          [X_SQUARE,X_SQUARE, X_SQUARE],
+          [EMPTY_SQUARE,O_SQUARE,EMPTY_SQUARE],
+        ]
+      };
+      const payload = { location: [1,2] };
 
       const newState = gameReducer(initialState, { type: "MOVE_OCCURRED", payload });
 
