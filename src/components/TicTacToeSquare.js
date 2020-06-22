@@ -1,11 +1,11 @@
 import React, { useState, useReducer } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
-const TicTacToeSquare = ({ cell, onPress}) => {
+const TicTacToeSquare = ({ cell, onPress, val }) => {
 
   return <TouchableOpacity style={styles.square} onPress={onPress}>
     <View key={cell}>
-      <Text style={styles.mark}>X</Text>
+      <Text style={styles.mark}>{val}</Text>
     </View>
   </TouchableOpacity>
 }

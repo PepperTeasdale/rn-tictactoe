@@ -23,11 +23,14 @@ export const gameReducer = (gameState, action) => {
   switch (action.type) {
     case 'MOVE_OCCURRED':
       const [colToChange, rowToChange] = action.payload.location;
+      if (["X", "O"].includes(gameState.board[colToChange][rowToChange])) {
+        return gameState
+      }
       const newState = gameState.board.map((row, i) => {
         if (i === rowToChange) {
           return row.map((col, j) => {
             if (j === colToChange) {
-              return "X";
+              return gameState.currentTurn === 0 ? "X" : "O"
             }
             return col;
           })
@@ -57,6 +60,7 @@ const TicTacToeScreen = () => {
             row.map((square, colNum) => (
               <TicTacToeSquare
                 cell={`${rowNum}-${colNum}`}
+                val={gameState.board[colNum][rowNum]}
                 key={`${rowNum}-${colNum}`}
                 onPress={() => {
                   dispatch({ type: 'MOVE_OCCURRED', payload: { location: [rowNum, colNum] } })

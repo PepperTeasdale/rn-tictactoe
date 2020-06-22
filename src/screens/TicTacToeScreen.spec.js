@@ -72,5 +72,28 @@ describe(gameReducer, () => {
 
       expect(newState).toEqual(expectedState)
     })
+    it("does not update the board state if the cell is already occupied", () => {
+      const initialState = {
+        currentTurn: 0,
+        board: [
+          ["X","",""],
+          ["","",""],
+          ["","",""],
+        ]
+      };
+      const expectedState = {
+        currentTurn: 0,
+        board: [
+          ["X","",""],
+          ["","",""],
+          ["","",""],
+        ]
+      };
+      const payload = { location: [0,0] };
+
+      const newState = gameReducer(initialState, { type: "MOVE_OCCURRED", payload });
+
+      expect(newState).toEqual(expectedState)
+    })
   })
 });
