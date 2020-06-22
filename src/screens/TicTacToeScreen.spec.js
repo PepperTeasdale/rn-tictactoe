@@ -95,5 +95,55 @@ describe(gameReducer, () => {
 
       expect(newState).toEqual(expectedState)
     })
+
+    it("detects when a player has 3 in a row vertically", () => {
+      const initialState = {
+        currentTurn: 1,
+        board: [
+          ["O","X",""],
+          ["O","X","X"],
+          ["","",""],
+        ]
+      };
+      const expectedState = {
+        winner: 1,
+        currentTurn: 0,
+        board: [
+          ["O","X",""],
+          ["O","X","X"],
+          ["O","",""],
+        ]
+      };
+      const payload = { location: [2,0] };
+
+      const newState = gameReducer(initialState, { type: "MOVE_OCCURRED", payload });
+
+      expect(newState).toEqual(expectedState)
+    })
+
+    it("detects when a player has 3 in a row vertically", () => {
+      const initialState = {
+        currentTurn: 0,
+        board: [
+          ["O","X",""],
+          ["O","X",""],
+          ["","",""],
+        ]
+      };
+      const expectedState = {
+        winner: 0,
+        currentTurn: 1,
+        board: [
+          ["O","X",""],
+          ["O","X",""],
+          ["","X",""],
+        ]
+      };
+      const payload = { location: [2,1] };
+
+      const newState = gameReducer(initialState, { type: "MOVE_OCCURRED", payload });
+
+      expect(newState).toEqual(expectedState)
+    })
   })
 });

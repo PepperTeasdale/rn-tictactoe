@@ -19,6 +19,20 @@ const startingGame = {
   board: startingBoard,
 };
 
+const checkForVerticalWin = (board, mark) => {
+  return [0, 1, 2].reduce((acc, num) => {
+    return acc || (
+      board[0][num] === mark &&
+      board[1][num] === mark &&
+      board[2][num] === mark
+    )
+  }, false)
+}
+
+const checkForWin = (board, mark) => {
+  return checkForVerticalWin(board, mark)
+}
+
 export const gameReducer = (gameState, action) => {
   switch (action.type) {
     case 'MOVE_OCCURRED':
@@ -26,17 +40,26 @@ export const gameReducer = (gameState, action) => {
       if (["X", "O"].includes(gameState.board[rowToChange][colToChange])) {
         return gameState
       }
+      const currentMark = gameState.currentTurn === 0 ? "X" : "O"
       const newState = gameState.board.map((row, i) => {
         if (i === rowToChange) {
           return row.map((col, j) => {
             if (j === colToChange) {
-              return gameState.currentTurn === 0 ? "X" : "O"
+              return currentMark
             }
             return col;
           })
         }
         return row;
       });
+
+      if (checkForWin(newState, currentMark)) {
+        return {
+          winner: gameState.currentTurn,
+          board: newState,
+          currentTurn: (gameState.currentTurn + 1) % 2,
+        };
+      }
 
       return {
         board: newState,
