@@ -76,7 +76,7 @@ describe(gameReducer, () => {
       const initialState = {
         currentTurn: 0,
         board: [
-          ["X","",""],
+          ["","X",""],
           ["","",""],
           ["","",""],
         ]
@@ -84,12 +84,12 @@ describe(gameReducer, () => {
       const expectedState = {
         currentTurn: 0,
         board: [
-          ["X","",""],
+          ["","X",""],
           ["","",""],
           ["","",""],
         ]
       };
-      const payload = { location: [0,0] };
+      const payload = { location: [0,1] };
 
       const newState = gameReducer(initialState, { type: "MOVE_OCCURRED", payload });
 
