@@ -2,7 +2,7 @@ import React from 'react'
 import { Text } from 'react-native'
 import renderer, { act } from 'react-test-renderer';
 
-import TicTacToeScreen, { gameReducer } from './TicTacToeScreen'
+import TicTacToeScreen, { EMPTY_SQUARE, gameReducer, O_SQUARE, X_SQUARE } from './TicTacToeScreen'
 import TicTacToeSquare from '../components/TicTacToeSquare'
 
 describe('<TicTacToeScreen/>', () => {
@@ -53,17 +53,17 @@ describe(gameReducer, () => {
       const initialState = {
         currentTurn: 0,
         board: [
-          ["","",""],
-          ["","",""],
-          ["","",""],
+          [EMPTY_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
+          [EMPTY_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
+          [EMPTY_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
         ]
       };
       const expectedState = {
         currentTurn: 1,
         board: [
-          ["X","",""],
-          ["","",""],
-          ["","",""],
+          [X_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
+          [EMPTY_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
+          [EMPTY_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
         ]
       };
       const payload = { location: [0,0] };
@@ -76,17 +76,17 @@ describe(gameReducer, () => {
       const initialState = {
         currentTurn: 0,
         board: [
-          ["","X",""],
-          ["","",""],
-          ["","",""],
+          [EMPTY_SQUARE,X_SQUARE,EMPTY_SQUARE],
+          [EMPTY_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
+          [EMPTY_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
         ]
       };
       const expectedState = {
         currentTurn: 0,
         board: [
-          ["","X",""],
-          ["","",""],
-          ["","",""],
+          [EMPTY_SQUARE,X_SQUARE,EMPTY_SQUARE],
+          [EMPTY_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
+          [EMPTY_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
         ]
       };
       const payload = { location: [0,1] };
@@ -100,18 +100,18 @@ describe(gameReducer, () => {
       const initialState = {
         currentTurn: 1,
         board: [
-          ["O","X",""],
-          ["O","X","X"],
-          ["","",""],
+          [O_SQUARE,X_SQUARE,EMPTY_SQUARE],
+          [O_SQUARE,X_SQUARE,X_SQUARE],
+          [EMPTY_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
         ]
       };
       const expectedState = {
         winner: 1,
         currentTurn: 0,
         board: [
-          ["O","X",""],
-          ["O","X","X"],
-          ["O","",""],
+          [O_SQUARE,X_SQUARE,EMPTY_SQUARE],
+          [O_SQUARE,X_SQUARE,X_SQUARE],
+          [O_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
         ]
       };
       const payload = { location: [2,0] };
@@ -125,18 +125,18 @@ describe(gameReducer, () => {
       const initialState = {
         currentTurn: 0,
         board: [
-          ["O","X",""],
-          ["O","X",""],
-          ["","",""],
+          [O_SQUARE,X_SQUARE,EMPTY_SQUARE],
+          [O_SQUARE,X_SQUARE,EMPTY_SQUARE],
+          [EMPTY_SQUARE,EMPTY_SQUARE,EMPTY_SQUARE],
         ]
       };
       const expectedState = {
         winner: 0,
         currentTurn: 1,
         board: [
-          ["O","X",""],
-          ["O","X",""],
-          ["","X",""],
+          [O_SQUARE,X_SQUARE,EMPTY_SQUARE],
+          [O_SQUARE,X_SQUARE,EMPTY_SQUARE],
+          [EMPTY_SQUARE,X_SQUARE,EMPTY_SQUARE],
         ]
       };
       const payload = { location: [2,1] };

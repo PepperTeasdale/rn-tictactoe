@@ -1,12 +1,13 @@
-import React, { useState, useReducer } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
-import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
+import React, { useReducer } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { vmin } from 'react-native-expo-viewport-units'
 
 import TicTacToeSquare from '../components/TicTacToeSquare'
+import * as R from 'ramda'
 
-const EMPTY_SQUARE = "";
-const X_SQUARE = "X";
-const O_SQUARE = "O";
+export const EMPTY_SQUARE = "";
+export const X_SQUARE = "X";
+export const O_SQUARE = "O";
 
 const startingBoard = [
   [EMPTY_SQUARE, EMPTY_SQUARE, EMPTY_SQUARE],
@@ -19,28 +20,25 @@ const startingGame = {
   board: startingBoard,
 };
 
-const checkForVerticalWin = (board, mark) => {
+const checkForVerticalWin = (board, winChecker) => {
   return [0, 1, 2].reduce((acc, num) => {
-    return acc || (
-      board[0][num] === mark &&
-      board[1][num] === mark &&
-      board[2][num] === mark
-    )
+    return acc || R.all(winChecker, [board[0][num], board[1][num]], board[2][num])
   }, false)
 }
 
-const checkForWin = (board, mark) => {
-  return checkForVerticalWin(board, mark)
+const checkForWin = (board, winChecker) => {
+  return checkForVerticalWin(board, winChecker)
 }
 
 export const gameReducer = (gameState, action) => {
   switch (action.type) {
     case 'MOVE_OCCURRED':
       const [rowToChange, colToChange] = action.payload.location;
-      if (["X", "O"].includes(gameState.board[rowToChange][colToChange])) {
+
+      if (EMPTY_SQUARE !== gameState.board[rowToChange][colToChange]) {
         return gameState
       }
-      const currentMark = gameState.currentTurn === 0 ? "X" : "O"
+      const currentMark = gameState.currentTurn === 0 ? X_SQUARE : O_SQUARE
       const newState = gameState.board.map((row, i) => {
         if (i === rowToChange) {
           return row.map((col, j) => {
@@ -53,7 +51,7 @@ export const gameReducer = (gameState, action) => {
         return row;
       });
 
-      if (checkForWin(newState, currentMark)) {
+      if (checkForWin(newState, R.equals(currentMark))) {
         return {
           winner: gameState.currentTurn,
           board: newState,
