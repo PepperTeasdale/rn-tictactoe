@@ -86,7 +86,7 @@ const TicTacToeScreen = () => {
 
   return <View style={styles.board}>
     <Text>{`Player ${gameState.currentTurn + 1} Turn`}</Text>
-    { gameState.winner === 0 ?  <Text>Player 1 Wins!</Text> : null }
+    { typeof gameState.winner === "undefined" ? null : <Text>{`Player ${gameState.winner + 1} Wins!`}</Text> }
     {
       gameState.board.map((row, rowNum) => {
         return <View style={styles.row} key={rowNum}>
