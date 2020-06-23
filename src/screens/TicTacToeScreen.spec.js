@@ -80,6 +80,25 @@ describe('<TicTacToeScreen/>', () => {
     expect(instance.findAll(child => child.type === 'Text' && child.props.children === 'O').length).toBe(3)
     expect(instance.find(child => child.props.children === 'Player 2 Wins!')).toBeDefined()
   })
+
+  it('does not allow a move if a player has won', () => {
+    const instance = renderer.create(<TicTacToeScreen />).root;
+
+    act(() => {
+      instance.findByProps({ cell: '0-0' }).props.onPress();
+      instance.findByProps({ cell: '0-1' }).props.onPress();
+      instance.findByProps({ cell: '1-0' }).props.onPress();
+      instance.findByProps({ cell: '1-1' }).props.onPress();
+      instance.findByProps({ cell: '2-0' }).props.onPress();
+    });
+
+    act(() => {
+      instance.findByProps({ cell: '2-1' }).props.onPress();
+    });
+
+    expect(instance.findAll(child => child.type === 'Text' && child.props.children === 'O').length).toBe(2)
+    expect(instance.findAll(child => child.type === 'Text' && child.props.children === 'X').length).toBe(3)
+  })
 })
 
 describe(gameReducer, () => {

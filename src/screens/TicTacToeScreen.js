@@ -43,10 +43,16 @@ const checkForWin = (board, winChecker) => {
     checkForDiagonalWin(board, winChecker)
 }
 
+const gameCompleted = () => typeof gameState.winner !== "undefined"
+
 export const gameReducer = (gameState, action) => {
   switch (action.type) {
     case 'MOVE_OCCURRED':
       const [rowToChange, colToChange] = action.payload.location
+
+      if (typeof gameState.winner !== "undefined") {
+        return gameState;
+      }
 
       if (EMPTY_SQUARE !== gameState.board[rowToChange][colToChange]) {
         return gameState
