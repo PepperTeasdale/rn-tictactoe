@@ -220,5 +220,30 @@ describe(gameReducer, () => {
 
       expect(newState).toEqual(expectedState)
     })
+
+    it("detects when a player has 3 in second row diagonally from bottom left to top right ", () => {
+      const initialState = {
+        currentTurn: 0,
+        board: [
+          [EMPTY_SQUARE,O_SQUARE,EMPTY_SQUARE],
+          [X_SQUARE,X_SQUARE, EMPTY_SQUARE],
+          [X_SQUARE,O_SQUARE,O_SQUARE],
+        ]
+      };
+      const expectedState = {
+        winner: 0,
+        currentTurn: 1,
+        board: [
+          [EMPTY_SQUARE,O_SQUARE,X_SQUARE],
+          [X_SQUARE,X_SQUARE, EMPTY_SQUARE],
+          [X_SQUARE,O_SQUARE,O_SQUARE],
+        ]
+      };
+      const payload = { location: [0,2] };
+
+      const newState = gameReducer(initialState, { type: "MOVE_OCCURRED", payload });
+
+      expect(newState).toEqual(expectedState)
+    })
   })
 });
