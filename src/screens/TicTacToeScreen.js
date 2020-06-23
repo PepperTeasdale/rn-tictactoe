@@ -33,7 +33,8 @@ const checkForHorizontalWin = (board, winChecker) => {
 }
 
 const checkForDiagonalWin = (board, winChecker) => {
-  return R.all(winChecker, [board[0][0], board[1][1], board[2][2]])
+  return R.all(winChecker, [board[0][0], board[1][1], board[2][2]]) ||
+    R.all(winChecker, [board[0][2], board[1][1], board[2][0]])
 }
 
 const checkForWin = (board, winChecker) => {
